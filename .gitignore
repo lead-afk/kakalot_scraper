@@ -1,1 +1,4 @@
 .venv
+test
+manga
+__pycache__
