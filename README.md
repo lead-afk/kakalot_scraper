@@ -1,6 +1,6 @@
 # Kakalot Scraper
 
-A robust Python-based tool designed to scrape manga chapters specifically from [mangakakalot.gg](https://www.mangakakalot.gg) and convert them into CBZ (Comic Book Zip) format for easy reading.
+A robust Python-based tool designed to scrape manga chapters specifically from [mangakakalot.gg](https://www.mangakakalot.gg) and convert them into CBZ (Comic Book Zip) format for easy reading. By default configured for intergration with Komga, but can be used standalone as well.
 
 ## Features
 
@@ -12,6 +12,8 @@ A robust Python-based tool designed to scrape manga chapters specifically from [
 - **Smart Resume**: Skips chapters that have already been downloaded to save time and bandwidth.
 - **Retry Mechanism**: Handles network hiccups and rate limits with automatic retries.
 - **Full Reset Option**: Force re-download of all chapters if needed.
+- **Docker Support**: Easily deployable via Docker for consistent environments.
+- **Service Mode**: Can run as a long-lived service that watches for changes in the configuration file to trigger new scrapes and periodically checks for updates to watched manga series.
 
 ## Prerequisites
 
@@ -150,12 +152,13 @@ manga/
 ## Disclaimer
 
 This tool is for educational purposes only. Please respect the copyright of the manga creators and publishers as well as TOS of [mangakakalot.gg](https://www.mangakakalot.gg). Use this tool responsibly and do not overload the target website.
-**Note that this scraper was not made with regards to any documentation or guidelines provided by mangakakalot.gg and so it might break if the website structure changes.**
+
+`This scraper was not developed with reference to any official documentation or guidelines from mangakakalot.gg. Consequently, it may break if the website structure changes.`
 
 ## Notes
 
 - Ensure you have permission to download and use the manga content.
-- Due to full browser rendering, scraping may take longer than traditional HTML parsing methods, also the RAM usage will be higher, during testing the scraper used up to 3GB of RAM for large manga series.
+- Due to full browser rendering, scraping may take longer than traditional HTML parsing methods, also the RAM usage will be higher, the scraper may use upwards of `4GB` of RAM for large manga series.
 
 ## License
 
