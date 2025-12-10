@@ -25,7 +25,7 @@ A robust Python-based tool designed to scrape manga chapters specifically from [
 1. **Clone the repository:**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/lead-afk/kakalot_scraper
    cd kakalot_scraper
    ```
 
