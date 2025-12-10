@@ -74,6 +74,11 @@ class MangaInfo:
             f"URL: {self.url}"
         )
 
+    def healthcheck(self) -> bool:
+        if self.title == "Unknown" and self.last_updated == "Unknown":
+            return False
+        return True
+
 
 def get_manga_info(url: str) -> MangaInfo:
     """
