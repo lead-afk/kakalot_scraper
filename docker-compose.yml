@@ -2,11 +2,10 @@ services:
   kakalot_scraper:
     image: leadafk/kakalot_scraper
     build:
-      context: ..
-      dockerfile: docker/Dockerfile
+      dockerfile: dockerfile
     volumes:
-      - ../manga:/app/manga
-      - ../to_scrape.conf:/app/to_scrape.conf
+      - ./manga:/app/manga
+      - ./to_scrape.conf:/app/to_scrape.conf
     healthcheck:
       test: ["CMD-SHELL", "/app/healthcheck.sh"]
       interval: 1m

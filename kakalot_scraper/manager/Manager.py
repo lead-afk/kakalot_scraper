@@ -1,6 +1,7 @@
 import time
 from typing import Any
 from playwright.sync_api import sync_playwright
+from kakalot_scraper.utils.Utils import sleep_seconds
 
 
 def is_ongoing(manga: str) -> bool:
@@ -224,7 +225,7 @@ if __name__ == "__main__":
     print(f"Manga Information:")
     print(manga_info)
     print("Waiting before fetching chapters...")
-    time.sleep(5)
+    sleep_seconds(5)
 
     chapters = get_chapters_list(test_url)
     print(f"Found {len(chapters)} chapters:")

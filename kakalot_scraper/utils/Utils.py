@@ -1,6 +1,13 @@
 import os
 import kakalot_scraper
 from urllib.parse import urlparse
+import time
+import tqdm as tqdm
+
+
+def sleep_seconds(seconds: int) -> None:
+    for _ in tqdm.tqdm(range(seconds), desc="Waiting", unit="s"):
+        time.sleep(1)
 
 
 def check_paths() -> None:

@@ -2,6 +2,7 @@ from PIL import Image
 from io import BytesIO
 from playwright.sync_api import sync_playwright
 from playwright.sync_api._generated import Page
+from kakalot_scraper import GLOBAL
 
 
 class SETTINGS:
@@ -143,8 +144,14 @@ def scrape_manga(manga: str, ignore_url_issues: bool = False) -> list[Image.Imag
                         if (
                             image.width >= SETTINGS.MINIMUM_IMAGE_WIDTH
                             and image.height >= SETTINGS.MINIMUM_IMAGE_HEIGHT
-                        ):
+                        ) or GLOBAL.TRY_MERGING_SMALLER_IMAGES:
                             valid_images.append((image, src))
+
+                        else:
+                            print(
+                                f"Image {src} is too small: {image.width}x{image.height}"
+                            )
+
                     else:
                         print(f"Could not retrieve data for {src}")
 
@@ -156,6 +163,39 @@ def scrape_manga(manga: str, ignore_url_issues: bool = False) -> list[Image.Imag
             print(f"An error occurred: {e}")
         finally:
             browser.close()
+
+    if GLOBAL.TRY_MERGING_SMALLER_IMAGES:
+        if len(valid_images) == 0:
+            print("No valid images found to merge.")
+            return []
+
+        merge_count = 0
+        i = 1
+        while i < len(valid_images):
+            img, src = valid_images[i]
+            prev_img, prev_src = valid_images[i - 1]
+
+            if img.height < SETTINGS.MINIMUM_IMAGE_HEIGHT:
+                if img.width == prev_img.width:
+                    print(
+                        f"Merging image {src}, into previous image due to small height."
+                    )
+                    new_height = prev_img.height + img.height
+                    merged_img = Image.new("RGB", (img.width, new_height))
+                    merged_img.paste(prev_img, (0, 0))
+                    merged_img.paste(img, (0, prev_img.height))
+                    valid_images[i - 1] = (merged_img, prev_src)
+                    valid_images.pop(i)
+                    merge_count += 1
+                else:
+                    print(
+                        f"Cannot merge image, {src}, due to width mismatch. Skipping."
+                    )
+                    valid_images.pop(i)
+                continue
+            i += 1
+
+        print(f"Merged {merge_count} images due to small sizes.")
 
     for i, (img, src) in enumerate(valid_images):
         print(f"Valid image {i+1}: {src} ({img.width}x{img.height})")

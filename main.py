@@ -21,9 +21,7 @@ def scrape_manga_and_save(url: str, full_reset: bool = False):
     for chapter_num, chapter_url in chapters:
         print(f"Chapter {chapter_num}: {chapter_url}")
     print("Waiting before fetching manga info...")
-
-    time.sleep(10)
-
+    sleep_seconds(5)
     fail_count = 0
     while True:
         manga_info: MangaInfo = get_manga_info(url=url)
@@ -35,12 +33,12 @@ def scrape_manga_and_save(url: str, full_reset: bool = False):
             print("Maximum retries reached. Exiting.")
             return
         print("Manga info healthcheck failed, retrying in 20 seconds...")
-        time.sleep(20)
+        sleep_seconds(20)
 
     print(f"Manga Information:")
     print(manga_info)
     print("Waiting before processing chapters...")
-    time.sleep(10)
+    sleep_seconds(10)
 
     full_reset = False
     ret_count = 0
@@ -63,7 +61,7 @@ def scrape_manga_and_save(url: str, full_reset: bool = False):
                 f"No valid images found for Chapter {chapter_num}, assuming rate limit."
             )
             print("Waiting 15 seconds before retrying...")
-            time.sleep(15)
+            sleep_seconds(15)
             ret_count += 1
             if ret_count >= 3:
                 print("Maximum retries reached. Exiting.")
@@ -78,7 +76,7 @@ def scrape_manga_and_save(url: str, full_reset: bool = False):
         i += 1
 
         print("Waiting 15 seconds before next chapter...")
-        time.sleep(15)
+        sleep_seconds(15)
 
 
 def scrape_all(full_reset: bool = False) -> None:
