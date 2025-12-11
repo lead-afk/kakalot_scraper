@@ -6,7 +6,7 @@ from kakalot_scraper.manager.Manager import *
 from kakalot_scraper.utils.Utils import *
 
 from kakalot_scraper.watchdog.Watchdog import Handler, wake_up_event
-from watchdog.observers import Observer
+from watchdog.observers.polling import PollingObserver as Observer
 
 import time
 import argparse
@@ -27,6 +27,7 @@ def scrape_manga_and_save(url: str, full_reset: bool = False):
     fail_count = 0
     while True:
         manga_info: MangaInfo = get_manga_info(url=url)
+        print("Fetched manga info, performing healthcheck...")
         if manga_info.healthcheck():
             break
         fail_count += 1
@@ -94,6 +95,7 @@ def scrape_all(full_reset: bool = False) -> None:
 
 def self_service_mode() -> None:
 
+    global wake_up_event
     observer = Observer()
     observer.schedule(Handler(), path=".", recursive=False)
     observer.start()
@@ -107,7 +109,7 @@ def self_service_mode() -> None:
     try:
         while True:
             scrape_all()
-
+            print("Scrape cycle complete. Waiting for next trigger or timeout...")
             # Wait for 1 hour or until wake_up_event is set
             # We check every 10 minutes to update heartbeat
             for _ in range(6):

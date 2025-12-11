@@ -75,8 +75,13 @@ class MangaInfo:
         )
 
     def healthcheck(self) -> bool:
+        print(
+            f"Performing healthcheck for manga: {self.title}, last updated: {self.last_updated}"
+        )
         if self.title == "Unknown" and self.last_updated == "Unknown":
+            print("Healthcheck failed: Title and Last Updated are Unknown")
             return False
+        print("Healthcheck passed")
         return True
 
 
